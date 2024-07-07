@@ -36,5 +36,27 @@ This repository provides a ready-to-deploy Docker Compose setup for a comprehens
     docker-compose up -d
     ```
 
+## Access Grafana
+
+- Open your web browser and navigate to [Grafana Dashboard](http://localhost:3000) - <http://localhost:3000>
+- The default username is admin and password is admin. You can change these credentials within the `.env` file.
+- Explore the pre-configured dashboards for visualizing telemetry data collected by the OpenTelemetry Collector.
+
+## Stopping the Stack
+
+To stop the stack and its services, run
+
+```bash
+docker-compose down
+```
+
+## Contributing
+
+Contributions to improve this project are welcome! Feel free to open pull requests with bug fixes, enhancements, or additional features.
+
+## License
+
+This repository is licensed under the [MIT License](LICENSE.TXT).
+
 [docker-compose-download-link]: https://docs.docker.com/compose/install/
 [docker-desktop-download-link]: https://www.docker.com/products/docker-desktop/
