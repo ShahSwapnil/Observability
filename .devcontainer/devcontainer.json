@@ -1,0 +1,47 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/go
+{
+	"name": "Go",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/go:1-1.22-bookworm",
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		"ghcr.io/nils-geistmann/devcontainers-features/create-remote-user:0": {
+			"create": true,
+			"addToSudo": true,
+			"installSudo": true
+		},
+		"ghcr.io/nils-geistmann/devcontainers-features/exercism:0": {
+			"installCompletions": true,
+			"containerShell": "zsh"
+		},
+		"ghcr.io/nils-geistmann/devcontainers-features/zsh:0": {
+			"setLocale": true,
+			"theme": "agnoster",
+			"plugins": "git docker",
+			"desiredLocale": "en_US.UTF-8 UTF-8"
+		}
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "go version",
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "neil",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"bierner.github-markdown-preview",
+				"GitHub.vscode-pull-request-github",
+				"DavidAnson.vscode-markdownlint"
+			]
+		}
+	}
+}
