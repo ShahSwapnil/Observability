@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/devcontainers/go:1-1.22-bookworm
 
-COPY ./install-opentelemertry-generator.sh /tmp/install-opentelemertry-generator.sh
+COPY ./.devcontainer/install-opentelemertry-generator.sh /tmp/install-opentelemertry-generator.sh
 
 RUN bash /tmp/install-opentelemertry-generator.sh
