@@ -1,9 +1,12 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/go
 {
-	"name": "Go",
+	"name": "Observability Telemetry Generator",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/go:1-1.22-bookworm",
+	// "image": "mcr.microsoft.com/devcontainers/go:1-1.22-bookworm",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "observability-telemetry-generator",
+	"workspaceFolder": "/workspaces",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
@@ -43,5 +46,6 @@
 				"DavidAnson.vscode-markdownlint"
 			]
 		}
-	}
+	},
+	"initializeCommand": ["echo", "$(pwd)"]
 }

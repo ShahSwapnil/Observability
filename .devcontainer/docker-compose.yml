@@ -1,0 +1,15 @@
+name: opoentelemetrygenerator
+
+services:
+  observability-telemetry-generator:
+    image: mcr.microsoft.com/devcontainers/go:1-1.22-bookworm
+    volumes:
+      - ./.zshrc:/home/neil/.zshrc
+      - ../:/workspaces      
+    command: sleep infinity
+    networks:
+      - local-dev
+
+networks:
+  local-dev:
+    external: true
