@@ -36,16 +36,17 @@
 	// Configure tool-specific properties.
 	// "customizations": {},
 
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	"remoteUser": "neil",
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.	
+	"remoteUser": "vscode",
 	"customizations": {
 		"vscode": {
 			"extensions": [
 				"bierner.github-markdown-preview",
 				"GitHub.vscode-pull-request-github",
-				"DavidAnson.vscode-markdownlint"
+				"DavidAnson.vscode-markdownlint",
+				"ms-azuretools.vscode-docker"
 			]
 		}
 	},
-	"initializeCommand": ["echo", "$(pwd)"]
+	"initializeCommand": "./pre-start.sh"
 }
