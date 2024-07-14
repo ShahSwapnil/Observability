@@ -6,6 +6,7 @@ services:
     volumes:
       - ./.zshrc:/home/neil/.zshrc
       - ../:/workspaces      
+      - /var/run/docker.sock:/var/run/docker.sock
     command: sleep infinity
     networks:
       - local-dev

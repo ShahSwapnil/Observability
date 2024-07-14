@@ -12,6 +12,21 @@ processors:
 exporters:
   debug:
     verbosity: detailed
+  otlphttp:
+    endpoint: http://loki:3100/otlp
+  otlp:
+    endpoint: tempo:4319
+    tls:
+      insecure: true
+  prometheus:
+    endpoint: 0.0.0.0:8889
+    namespace: ssquared
+    send_timestamps: true
+    metric_expiration: 180m
+    enable_open_metrics: true
+    add_metric_suffixes: true
+    resource_to_telemetry_conversion:
+      enabled: true
 
 extensions:
   health_check:
@@ -24,12 +39,12 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug]
+      exporters: [debug, otlp]
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug]
+      exporters: [debug, prometheus]
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug]
+      exporters: [debug, otlphttp]

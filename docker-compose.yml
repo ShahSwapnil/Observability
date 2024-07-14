@@ -2,21 +2,99 @@ name: observability
 
 services:
   otel:
+    container_name: otel
     image: otel/opentelemetry-collector-contrib:0.104.0
+    restart: unless-stopped
     volumes:
-      - ./otel/config.yaml:/etc/otelcol-contrib/config.yaml
+      - ${HOST_PROJECT_PATH}/otel/config.yaml:/etc/otelcol-contrib/config.yaml
     ports:
       - 1888:1888 # pprof extension
       - 8888:8888 # Prometheus metrics exposed by the Collector
       - 8889:8889 # Prometheus exporter metrics
       - 13133:13133 # health_check extension
       - 4317:4317 # OTLP gRPC receiver
-      - 4318:4318 # OTLP http receiver
-      - 55679:55679 # zpages extension
+      # - 4318:4318 # OTLP http receiver
+      # - 55679:55679 # zpages extension
     networks:
       - local-dev
+    depends_on:
+      loki:
+        condition: service_healthy
+      tempo:
+        condition: service_healthy
 
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+      - GF_LOG_MODE=console
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    volumes:
+      # - ./grafana/data:/var/lib/grafana
+      - ${HOST_PROJECT_PATH}/grafana/provisioning/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ${HOST_PROJECT_PATH}/grafana/provisioning/dashboards/:/etc/grafana/provisioning/dashboards
+    ports:
+      - 3000:3000
+    networks:
+      - local-dev
+    user: "1002"
+    depends_on:
+      loki:
+        condition: service_healthy
+      tempo:
+        condition: service_healthy
+
+  loki:
+    container_name: loki
+    image: grafana/loki:main
+    ports:
+      - 3100:3100
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ${HOST_PROJECT_PATH}/grafana/loki-config.yaml:/etc/loki/local-config.yaml
+    networks:      
+      - local-dev
+    healthcheck:
+      test: wget --quiet --tries=1 --output-document=- http://localhost:3100/ready | grep -q -w ready || exit 1
+      start_period: 5s
+      interval: 5s
+      timeout: 1s
+      retries: 4  # try for 2 minutes
+
+  tempo:
+    container_name: tempo
+    image: grafana/tempo:latest
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ${HOST_PROJECT_PATH}/grafana/tempo-config.yaml:/etc/tempo.yaml
+    ports:
+      - 4319:4319 #otlp grpc
+    networks:      
+      - local-dev
+    healthcheck:
+      test: wget --quiet --tries=1 --output-document=- http://localhost:3200/ready | grep -q -w ready || exit 1
+      start_period: 5s
+      interval: 5s
+      timeout: 1s
+      retries: 4  # try for 2 minutes
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    command:
+      - --config.file=/etc/prometheus.yaml
+      - --web.enable-remote-write-receiver
+      - --enable-feature=exemplar-storage
+    volumes:
+      - ${HOST_PROJECT_PATH}/grafana/prometheus-config.yaml:/etc/prometheus.yaml
+    ports:
+      - 9091:9090
+    networks:      
+      - local-dev          
+    
 networks:
   local-dev:
-    driver: bridge
     external: true
