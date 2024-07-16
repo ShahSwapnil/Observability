@@ -6,17 +6,15 @@
 	// "image": "mcr.microsoft.com/devcontainers/go:1-1.22-bookworm",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "observability-telemetry-generator",
-	"workspaceFolder": "/workspaces",  "remoteEnv": {
+	"workspaceFolder": "/workspaces",
+	"remoteEnv": {
 		// the original host directory which is needed for volume 
 		// mount commands from inside the container (Docker in Docker)
 		"HOST_PROJECT_PATH": "${localWorkspaceFolder}"
-	  },
-
+	},
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {
-			"moby": false
-		},
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
 		"ghcr.io/nils-geistmann/devcontainers-features/create-remote-user:0": {
 			"create": true,
 			"addToSudo": true,
@@ -57,5 +55,5 @@
 			]
 		}
 	},
-	"initializeCommand": "./.devcontainer/scripts/pre-start.sh"	
+	"initializeCommand": "./.devcontainer/scripts/pre-start.sh"
 }
