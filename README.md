@@ -34,7 +34,7 @@ This repository provides a ready-to-deploy Docker Compose setup for a comprehens
 1. Clone the Repository
 
    ```bash
-   git clone <GIT_REPO>
+   git clone https://github.com/ShahSwapnil/Observability.git
    ```
 
 1. Navigate to the observability folder
@@ -52,7 +52,6 @@ This repository provides a ready-to-deploy Docker Compose setup for a comprehens
 ## Access Grafana
 
 - Open your web browser and navigate to [Grafana Dashboard](http://localhost:3000) - <http://localhost:3000>
-- The default username is admin and password is admin. You can change these credentials within the `.env` file.
 - Explore the pre-configured dashboards for visualizing telemetry data collected by the OpenTelemetry Collector.
 
 ## Stopping the Stack
