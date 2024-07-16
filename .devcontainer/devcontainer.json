@@ -57,6 +57,5 @@
 			]
 		}
 	},
-	"initializeCommand": "./.devcontainer/pre-start.sh"
-	//"postStartCommand": "./.devcontainer/scripts/postStartCommand.sh"
+	"initializeCommand": "./.devcontainer/scripts/pre-start.sh"	
 }
