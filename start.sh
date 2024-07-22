@@ -11,4 +11,8 @@ else
   echo "Network 'local-dev' exists."
 fi
 
+if [[ -z "${HOST_PROJECT_PATH}" ]] then
+	export HOST_PROJECT_PATH="."
+fi
+
 docker-compose up -d
